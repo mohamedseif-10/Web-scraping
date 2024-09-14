@@ -27,6 +27,7 @@ This project is a job scraper that extracts job postings from the WUZZUF website
 - MySQL database (optional, for database storage)
 - Selenium WebDriver (e.g., ChromeDriver)
 - Python packages listed in `requirements.txt`
+- Create DB
 
 ### License
 
