@@ -30,7 +30,8 @@ This project is a job scraper that extracts job postings from the WUZZUF website
 
 ### License
 
-This comprehensive `README.md` covers all aspects of the project, including setup, usage, and a detailed explanation of the code and features. You can now copy and paste this content into your `README.md` file.
+
+This documentation provides an overview of the project, instructions for setup and use, details on the script's functionality, and potential future enhancements. Feel free to adapt it as needed for your project!.
 
 
 
