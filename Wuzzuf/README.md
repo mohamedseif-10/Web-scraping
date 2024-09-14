@@ -1,4 +1,4 @@
-<span style="color: blue;">WUZZUF Job Scraper</span>
+# <span style="color: blue;">WUZZUF Job Scraper</span>
 
 This project is a job scraper that extracts job postings from the WUZZUF website based on the user's chosen job title and the number of pages to scrape. The data is saved in a CSV file and optionally stored in a MySQL database. This project showcases data extraction, transformation, and loading (ETL) processes that are essential in data analysis, data visualization, and machine learning.
 
