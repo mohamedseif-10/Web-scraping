@@ -6,7 +6,7 @@ This project is a job scraper that extracts job postings from the WUZZUF website
 
 - **Interactive Job Selection:** Prompts the user to select a job category from a list of popular job titles.
 - **Customizable Scraping:** Allows the user to specify the number of pages to scrape.
-- **Data Extraction:** Extracts job details, including title, company name, location, job type, and requirements.
+- **Data Extraction:** Extracts job details, including title, company name, location, job type, Experience, and requirements.
 - **Data Cleaning:** Processes job posting times to a uniform date format (`YYYY-MM-DD`) this is only small example.
 - **Data Storage:** Saves data in a CSV file and optionally stores it in a MySQL database for easy querying and analysis.
 - **Extensible for Data Analysis:** The scraped data can be used for data analysis, visualization, and training machine learning models.
