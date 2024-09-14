@@ -102,9 +102,7 @@ for page in range(numPages):
                 links = element.find_elements(By.TAG_NAME, "a")
                 texts = [link.text for link in links]
                 Requirements = " ".join(texts)
-                # Requirements = re.sub(r"[^\x00-\x7F]+", ", ", Requirements)
-                # Requirements = re.sub(r"\s*-\s*", " ", Requirements).strip()
-                # Requirements = re.sub(r"\s*,\s*", ", ", Requirements).strip()
+
             except Exception as e:
                 print(f"Error finding or processing Requirements: {e}")
                 Requirements = ""
