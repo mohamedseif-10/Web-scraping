@@ -8,7 +8,7 @@ from sqlalchemy import create_engine, text
 
 #########################################################################################################
 # This project is about scraping the jobs from WUZZUUF website
-# The user can choose the job title he wants to search for and the number of pages he wants to scrape 
+# The user can choose the job title he wants to search for and the number of pages he wants to scrape
 # All the jobs will be stored in a csv file and then the user can read the data from the csv file
 # The data will be stored in a mysql database or any other database and the user can query the database
 # This is an example of data scraping and data Extraction and data loading which is the first (ETL) process
@@ -90,6 +90,10 @@ for page in range(numPages):
 
         try:
             jobTitle = job.find_element(By.CLASS_NAME, "css-o171kl").text
+            experience = job.find_element(
+                By.XPATH,
+                f"/html/body/div[1]/div/div[3]/div/div/div[2]/div[{k}]/div/div[2]/div[2]/a[1]",
+            ).text
             CompanyName = job.find_element(By.CLASS_NAME, "css-17s97q8").text
             CompanyLocation = job.find_element(By.CLASS_NAME, "css-5wys0k").text
             jobType = job.find_element(By.CLASS_NAME, "css-1ve4b75").text
@@ -100,8 +104,8 @@ for page in range(numPages):
                     f"/html/body/div[1]/div/div[3]/div/div/div[2]/div[{k}]/div/div[2]/div[2]",
                 )
                 links = element.find_elements(By.TAG_NAME, "a")
-                texts = [link.text for link in links]
-                Requirements = " ".join(texts)
+                texts = [link.text for link in links[1:]]
+                Requirements = " ".join(texts).strip(" · ")
 
             except Exception as e:
                 print(f"Error finding or processing Requirements: {e}")
@@ -109,7 +113,15 @@ for page in range(numPages):
             CompanyName = CompanyName.replace(" -", "")
 
             jobs.append(
-                (jobTitle, CompanyName, CompanyLocation, jobType, Requirements, jobTime)
+                (
+                    jobTitle,
+                    CompanyName,
+                    CompanyLocation,
+                    jobType,
+                    jobTime,
+                    experience,
+                    Requirements,
+                )
             )
         except Exception as e:
             print(f"Error :{e}")
@@ -129,11 +141,12 @@ df = pd.DataFrame(
         "Company Location",
         "Job Type",
         "Job Time",
+        "Experience",
         "Requirements",
     ],
 )
 
-df["Posted time"] = df["Job Time"].apply(lambda x: parse_time_string(x))
+df["Posted date"] = df["Job Time"].apply(lambda x: parse_time_string(x))
 
 data = df.to_csv(f"{JobsDict[userChoice].replace('%20', ' ')}.csv", index=False)
 
@@ -141,9 +154,10 @@ driver.quit()
 
 data = pd.read_csv(f"{JobsDict[userChoice].replace('%20', ' ')}.csv")
 
+# if you want to see this data after saving it
 for j in range(min(10, len(data))):
     print(
-        f"Job title: {data['Job Title'][j]} \nCompany Name: {data['Company Name'][j]} \nCompany Location: {data['Company Location'][j]} \nJob Type: {data['Job Type'][j]} \nRequirements: {data['Requirements'][j]} \nPosted time: {data['Posted time'][j]}"
+        f"Job title: {data['Job Title'][j]} \nCompany Name: {data['Company Name'][j]} \nCompany Location: {data['Company Location'][j]} \nJob Type: {data['Job Type'][j]} \nExperience: {data['Experience'][j]} \nPosted date: {data['Posted date'][j]}\nRequirements: {data['Requirements'][j]} \n"
     )
     print("-" * 25)
 ###########################################################################################
@@ -161,7 +175,7 @@ try:
     )
     # if engine is not None:
     #     print("Connection is successful")
-    
+
     # data = pd.read_csv("Data Science.csv")
     con = engine.connect()
     data.to_sql("jobs", con=engine, if_exists="replace", index=False)
